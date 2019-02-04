@@ -12,6 +12,10 @@
   flex-direction: column;
 }
 
+.bg-dark-translucent {
+  background-color: rgba(0, 0, 0, .75);
+}
+
 button {
   cursor: pointer;
 }
