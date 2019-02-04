@@ -54,17 +54,19 @@ class ImageDetection extends React.Component {
     const selectedModel = this.getSelectedModel();
 
     return (
-      <>
-        <Rank />
-        <ImageLinkForm 
-          onFormInputChange={this.onFormInputChange}
-          inputValue={input}
-          onFormSubmit={this.onFormSubmit}
-          onFormModelChange={this.onFormModelChange}
-          selectedModel={selectedModel}
-          models={models} />
-        <ImageContainer image={imageUrl} />
-      </>
+      <div className='h-100'>
+        <div className='mt5'>
+          <Rank />
+          <ImageLinkForm 
+            onFormInputChange={this.onFormInputChange}
+            inputValue={input}
+            onFormSubmit={this.onFormSubmit}
+            onFormModelChange={this.onFormModelChange}
+            selectedModel={selectedModel}
+            models={models} />
+          <ImageContainer image={imageUrl} />
+        </div>
+      </div>
     )
   }
 }

@@ -11,6 +11,10 @@ body {
   background-image: url('./assets/bg-app.jpeg');
 }
 
+#root {
+  height: 100%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

@@ -5,6 +5,7 @@ import Particles from 'react-particles-js';
 import './App.css';
 import Header from './components/Header/Header';
 import ImageDetection from './components/ImageDetection/ImageDetection';
+import Footer from './components/Footer/Footer';
 
 const particlesOptions = {
   particles: {
@@ -27,6 +28,7 @@ class App extends Component {
           params={particlesOptions} />
         <Header />
         <ImageDetection />
+        <Footer />
       </div>
     );
   }
