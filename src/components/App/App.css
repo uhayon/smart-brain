@@ -6,7 +6,7 @@
   justify-content: space-between;
 }
 
-.center {
+.flex-justify-center {
   display: flex;
   justify-content: center;
 }

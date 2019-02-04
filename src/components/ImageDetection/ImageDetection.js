@@ -19,8 +19,27 @@ class ImageDetection extends React.Component {
     this.state = {
       input: '',
       imageUrl: '',
-      selectedModelValue: Clarifai[models[0].value]
+      selectedModelValue: Clarifai[models[0].value],
+      box: {}
     };
+  }
+
+  calculateFaceLocation = (data) => {
+    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
+    const image = document.getElementById('inputimage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+
+    return {
+      leftCol: clarifaiFace.left_col * width,
+      topRow: clarifaiFace.top_row * height,
+      rightCol: width - (clarifaiFace.right_col * width),
+      bottomRow: height - (clarifaiFace.bottom_row * height)
+    };
+  }
+
+  displayFaceBox = (box) => {
+    this.setState({box});
   }
 
   onFormInputChange = (event) => {
@@ -35,13 +54,10 @@ class ImageDetection extends React.Component {
     const { selectedModelValue, input } = this.state;
     this.setState({imageUrl: input});
 
-    app.models.predict(selectedModelValue, input).then(
-      function(response) {
-        console.log('OK', response.outputs[0].data.regions[0].region_info.bounding_box);
-      },
-      function(err) {
-        console.log('Error', err);
-      }
+    app.models
+      .predict(selectedModelValue, input)
+      .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+      .catch(err => console.log('Error', err)
     );
   }
 
@@ -50,22 +66,20 @@ class ImageDetection extends React.Component {
   }
 
   render() {
-    const { input, imageUrl } = this.state;
+    const { input, imageUrl, box } = this.state;
     const selectedModel = this.getSelectedModel();
 
     return (
-      <div className='h-100'>
-        <div className='mt5'>
-          <Rank />
-          <ImageLinkForm 
-            onFormInputChange={this.onFormInputChange}
-            inputValue={input}
-            onFormSubmit={this.onFormSubmit}
-            onFormModelChange={this.onFormModelChange}
-            selectedModel={selectedModel}
-            models={models} />
-          <ImageContainer image={imageUrl} />
-        </div>
+      <div className='mt5'>
+        <Rank />
+        <ImageLinkForm 
+          onFormInputChange={this.onFormInputChange}
+          inputValue={input}
+          onFormSubmit={this.onFormSubmit}
+          onFormModelChange={this.onFormModelChange}
+          selectedModel={selectedModel}
+          models={models} />
+        <ImageContainer image={imageUrl} box={box} />
       </div>
     )
   }

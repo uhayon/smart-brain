@@ -9,15 +9,15 @@ const ImageLinkForm = ({ onFormInputChange, onFormSubmit, inputValue, onFormMode
       <p className="f3 white">
         {'This Magic Brain will detect what you want in your pictures. Give it a try.'}
       </p>
-      <div className='center'>
-        <div className={`pa4 br3 shadow-5 center column ${form}`}>
-          <div className="center" style={{margin: '0'}}>
+      <div className='flex-justify-center center'>
+        <div className={`pa4 br3 shadow-5 flex-justify-center center column ${form}`}>
+          <div className="flex-justify-center center" style={{margin: '0'}}>
             <ModelSelector
               onFormModelChange={onFormModelChange}
               selectedModel={selectedModel}
               models={models} />
             <input 
-              className={`${formInput} f4 pa2 w-70 center input-reset ba b--white-10`} 
+              className={`${formInput} f4 pa2 w-70 flex-justify-center center input-reset ba b--white-10`} 
               type="text" 
               onChange={onFormInputChange}
               value={inputValue} />
