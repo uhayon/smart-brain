@@ -29,7 +29,7 @@ class App extends Component {
     super();
 
     this.state = {
-      userLogged: true,
+      userLogged: false,
       userData: {}
     }
   }
@@ -38,8 +38,22 @@ class App extends Component {
     this.setState({userLogged});
   }
 
+  checkRoute = (props, Component, redirectFallback, conditionMet) => {
+    return conditionMet ? (
+      <SuspenseLoading>
+        <Component {...props} />
+      </SuspenseLoading>
+    ) : (
+      <Redirect
+        to={{
+          pathname: redirectFallback
+      }} />
+    );
+  }
+
   render() {
     const { userLogged } = this.state;
+    
     return (
       <div className="App">
         <Particles 
@@ -51,20 +65,18 @@ class App extends Component {
             <div className='h-100'>
               <Route 
                 exact path='/home' 
-                render={props => {
-                  console.log('props', props)
-                  return userLogged ? (
-                  <SuspenseLoading>
-                    <ImageDetection {...props} />
-                  </SuspenseLoading>) : (
-                  <Redirect
-                    to={{
-                      pathname: '/'
-                    }} />)                
-                }} />
+                render={(props) => this.checkRoute(props, ImageDetection, '/signin', userLogged)} />
+              <Route
+                exact path='/signin'
+                render={(props) => this.checkRoute(props, SignIn, '/home', !userLogged)} />
+              <Route
+                exact path='/signup'
+                render={(props) => this.checkRoute(props, SignIn, '/home', !userLogged)} />
               <Route
                 exact path='/'
-                render={() => <SuspenseLoading><SignIn /></SuspenseLoading>} />
+                render={() => <Redirect to={{
+                  pathname: `${userLogged ? '/home' : '/signin'}`
+                }} />} />
             </div>
           </Router>
         </Context.Provider>
