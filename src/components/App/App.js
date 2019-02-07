@@ -1,5 +1,6 @@
 import React, { Component, lazy } from 'react';
-import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import Particles from 'react-particles-js';
 
 import './App.css';
@@ -63,22 +64,32 @@ class App extends Component {
         <Context.Provider value={this.state}>
           <Header />
           <Router>
-            <div className='h-100'>
-              <Route 
-                exact path='/home' 
-                render={(props) => this.checkRoute(props, ImageDetection, '/signin', userLogged)} />
-              <Route
-                exact path='/signin'
-                render={(props) => this.checkRoute(props, SignIn, '/home', !userLogged)} />
-              <Route
-                exact path='/signup'
-                render={(props) => this.checkRoute(props, SignUp, '/home', !userLogged)} />
-              <Route
-                exact path='/'
-                render={() => <Redirect to={{
-                  pathname: `${userLogged ? '/home' : '/signin'}`
-                }} />} />
-            </div>
+            <Route
+              render={({ location }) => (
+                <TransitionGroup className='h-100 transition-group'>
+                  <CSSTransition 
+                    key={location.key}
+                    classNames='fade' 
+                    timeout={300}>
+                    <Switch location={location}>
+                      <Route 
+                        exact path='/home' 
+                        render={(props) => this.checkRoute(props, ImageDetection, '/signin', userLogged)} />
+                      <Route
+                        exact path='/signin'
+                        render={(props) => this.checkRoute(props, SignIn, '/home', !userLogged)} />
+                      <Route
+                        exact path='/signup'
+                        render={(props) => this.checkRoute(props, SignUp, '/home', !userLogged)} />
+                      <Route
+                        exact path='/'
+                        render={() => <Redirect to={{
+                          pathname: `${userLogged ? '/home' : '/signin'}`
+                        }} />} />
+                    </Switch>
+                  </CSSTransition>
+                </TransitionGroup>
+              )} />
           </Router>
         </Context.Provider>
         <Footer />

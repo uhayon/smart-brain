@@ -32,3 +32,24 @@ button {
   left: 0;
   z-index: -1;
 }
+
+.fade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.fade-enter.fade-enter-active {
+  opacity: 1;
+  transform: rotate(180deg, 180deg);
+  transition: all 250ms ease-in;
+}
+
+.transition-group {
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
+
+.transition-group > * {
+  position: absolute;
+}
