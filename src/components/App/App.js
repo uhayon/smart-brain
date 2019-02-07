@@ -9,6 +9,7 @@ import SuspenseLoading from '../SuspenseLoading/SuspenseLoading';
 
 const ImageDetection = lazy(() => import('../ImageDetection/ImageDetection'))
 const SignIn = lazy(() => import('../SignIn/SignIn'))
+const SignUp = lazy(() => import('../SignUp/SignUp'))
 
 const particlesOptions = {
   particles: {
@@ -71,7 +72,7 @@ class App extends Component {
                 render={(props) => this.checkRoute(props, SignIn, '/home', !userLogged)} />
               <Route
                 exact path='/signup'
-                render={(props) => this.checkRoute(props, SignIn, '/home', !userLogged)} />
+                render={(props) => this.checkRoute(props, SignUp, '/home', !userLogged)} />
               <Route
                 exact path='/'
                 render={() => <Redirect to={{
