@@ -1,14 +1,27 @@
 import React from 'react';
 
+import UserMenu from './UserMenu/UserMenu';
+
 import { header } from './Header.module.scss';
+import { LoggedUserConsumer } from '../../contexts/LoggedUserContext';
 
 const Header = () => {
   return (
-    <header className='bg-black-translucent'>
-      <nav className={header}>
-        <p className='link dim black underline pa2 pointer white'>Sign Out</p>
-      </nav>
-    </header>
+    <LoggedUserConsumer>
+      {
+        ({ userLogged, userData }) =>     
+          <header className='bg-black-translucent'>
+          {
+            userLogged ? 
+            <nav className={header}>
+              <UserMenu user={userData} />
+              <p className='link dim black underline pa2 pointer white mh3'>Sign Out</p>
+            </nav>
+            : null
+          }
+        </header>
+      }
+    </LoggedUserConsumer>
   );
 };
 
