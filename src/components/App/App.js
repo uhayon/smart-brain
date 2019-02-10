@@ -29,13 +29,18 @@ class App extends Component {
     super();
 
     this.state = {
-      userLogged: true,
+      userLogged: false,
       userData: {}
     }
+
+    this.setUserLogged = this.setUserLogged.bind(this);
   }
 
-  setUserLogged = (userLogged) => {
-    this.setState({userLogged});
+  setUserLogged = (userLogged, userData = {}) => {
+    this.setState({
+      userLogged,
+      userData
+    });
   }
 
   checkRoute = (props, Component, redirectFallback, conditionMet) => {
@@ -59,7 +64,7 @@ class App extends Component {
         <Particles 
           className='particles' 
           params={particlesOptions} />
-        <LoggedUserProvider value={this.state}>
+        <LoggedUserProvider value={{...this.state, setUserLogged: this.setUserLogged}}>
           <Header />
           <Router>
             <div className='h-100'>
