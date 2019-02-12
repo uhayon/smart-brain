@@ -1,0 +1,25 @@
+
+$red-error: #c0392b;
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+
+    &.inputError {
+        border: 2px solid $red-error;
+    }
+
+    input:focus {
+        color: #fff;
+    }
+
+    .errorIcon {
+        color: $red-error;
+    }
+}
+
+.errorMessage {
+    margin-top: 0;
+    color: $red-error;
+    text-align: left;
+}
