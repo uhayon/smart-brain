@@ -3,7 +3,7 @@ import React from 'react';
 import ModelSelector from './ModelSelector/ModelSelector';
 import { form, formInput } from './ImageLinkForm.module.scss';
 
-const ImageLinkForm = ({ onFormInputChange, onFormSubmit, inputValue, onFormModelChange, selectedModel, models }) => {
+const ImageLinkForm = ({ onFormInputChange, onImageSubmit, inputValue, onFormModelChange, selectedModel, models }) => {
   return (
     <div>
       <p className="f3 white">
@@ -23,7 +23,7 @@ const ImageLinkForm = ({ onFormInputChange, onFormSubmit, inputValue, onFormMode
               value={inputValue} />
             <button 
               className="w-30 grow f4 link ph3 pv2 dib white bg-dark-gray b--white-10 bg-light-purple" 
-              onClick={onFormSubmit}>
+              onClick={onImageSubmit}>
               Detect
             </button>
           </div>

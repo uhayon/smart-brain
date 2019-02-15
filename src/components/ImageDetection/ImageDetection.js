@@ -4,6 +4,7 @@ import Clarifai from 'clarifai';
 import ImageLinkForm from './ImageLinkForm/ImageLinkForm';
 import Rank from './Rank/Rank';
 import ImageContainer from './ImageContainer/ImageContainer';
+import { LoggedUserConsumer } from '../../contexts/LoggedUserContext';
 
 import models from '../../mockData/models.json';
 
@@ -50,13 +51,26 @@ class ImageDetection extends React.Component {
     this.setState({selectedModelValue: Clarifai[event.target.value]})
   }
 
-  onFormSubmit = () => {
+  onImageSubmit = (id, setUserLogged) => {
     const { selectedModelValue, input } = this.state;
     this.setState({imageUrl: input});
 
     app.models
       .predict(selectedModelValue, input)
-      .then(response => this.displayFaceBox(this.calculateFaceLocation(response)))
+      .then(response => {
+        if (response) {
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+          })
+          .then(response => response.json())
+          .then(user => setUserLogged(true, user));
+        }
+        this.displayFaceBox(this.calculateFaceLocation(response))
+      })
       .catch(err => console.log('Error', err)
     );
   }
@@ -70,17 +84,25 @@ class ImageDetection extends React.Component {
     const selectedModel = this.getSelectedModel();
 
     return (
-      <div className='mt5'>
-        <Rank />
-        <ImageLinkForm 
-          onFormInputChange={this.onFormInputChange}
-          inputValue={input}
-          onFormSubmit={this.onFormSubmit}
-          onFormModelChange={this.onFormModelChange}
-          selectedModel={selectedModel}
-          models={models} />
-        <ImageContainer image={imageUrl} box={box} />
-      </div>
+      <LoggedUserConsumer>
+        {
+          ({ userData: { id }, setUserLogged }) => {
+            return (
+              <div className='mt5'>
+                <Rank />
+                <ImageLinkForm 
+                  onFormInputChange={this.onFormInputChange}
+                  inputValue={input}
+                  onImageSubmit={() => this.onImageSubmit(id, setUserLogged)}
+                  onFormModelChange={this.onFormModelChange}
+                  selectedModel={selectedModel}
+                  models={models} />
+                <ImageContainer image={imageUrl} box={box} />
+              </div>
+            );
+          }
+        }
+      </LoggedUserConsumer>
     )
   }
 }

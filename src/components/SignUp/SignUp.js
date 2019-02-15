@@ -12,12 +12,12 @@ class SignUp extends React.Component {
 
     this.state = {
       formData: {
-        fullName: '',
+        fullname: '',
         username: '',
         password: ''
       },
       formErrors: {
-        fullName: false,
+        fullname: false,
         username: false,
         password: false
       },
@@ -26,16 +26,16 @@ class SignUp extends React.Component {
     }
   }
 
-  handleFullNameChange = event => {
-    const { value: fullName } = event.target;
+  handleFullnameChange = event => {
+    const { value: fullname } = event.target;
     this.setState({
       formErrors: {
         ...this.state.formErrors,
-        fullName: fullName.trim().length === 0
+        fullname: fullname.trim().length === 0
       },
       formData: {
         ...this.state.formData,
-        fullName
+        fullname
       }   
     });
   }
@@ -69,20 +69,20 @@ class SignUp extends React.Component {
   }
 
   fieldsValid = () => {
-    const { fullName, username, password } = this.state.formData;
-    const fullNameValid = fullName.trim().length > 0;
+    const { fullname, username, password } = this.state.formData;
+    const fullnameValid = fullname.trim().length > 0;
     const passwordValid = password.trim().length >= 8;
     const usernameValid = username.trim().length > 0 && !this.state.formErrors.username;
 
     this.setState({
       formErrors: {
-        fullName: !fullNameValid,
+        fullname: !fullnameValid,
         username: !usernameValid,
         password: !passwordValid
       }
     });
 
-    return fullNameValid && passwordValid && usernameValid;
+    return fullnameValid && passwordValid && usernameValid;
   }
 
   onSubmitSignIn = setUserLogged => {
@@ -99,13 +99,13 @@ class SignUp extends React.Component {
     })
     .then(response => {
       if (response.ok) {
-        response.json();
+        return response.json(); 
       } else {
         throw Error();
       }
     })
     .then(user => {
-      console.log(user)
+      console.log('lala',user)
       setUserLogged(true, user)
     })
     .catch(() => {
@@ -120,8 +120,8 @@ class SignUp extends React.Component {
 
   render() {
     const { showPassword } = this.state;
-    const { fullName, username, password } = this.state.formData;
-    const { fullName: fullNameErrorState, username: usernameErrorState, password: passwordErrorState } = this.state.formErrors;
+    const { fullname, username, password } = this.state.formData;
+    const { fullname: fullnameErrorState, username: usernameErrorState, password: passwordErrorState } = this.state.formErrors;
 
     return (
       <LoggedUserConsumer>
@@ -138,17 +138,17 @@ class SignUp extends React.Component {
                       className='tl db fw6 lh-copy f6'>
                       Name
                     </label>
-                    <div className={`${inputContainer} ${fullNameErrorState ? inputError : ''} ba hover-bg-light-silver`}>
+                    <div className={`${inputContainer} ${fullnameErrorState ? inputError : ''} ba hover-bg-light-silver`}>
                       <input 
                         name='signup_fullName' 
                         id='signup_fullName' 
                         type='text' 
                         className='white pa2 input-reset bn bg-transparent hover-black outline-0 w-100'
-                        onChange={this.handleFullNameChange}
-                        value={fullName} />
-                      {fullNameErrorState && <FontAwesomeIcon icon={faTimesCircle} className={`${errorIcon} f4 pr2`} />}
+                        onChange={this.handleFullnameChange}
+                        value={fullname} />
+                      {fullnameErrorState && <FontAwesomeIcon icon={faTimesCircle} className={`${errorIcon} f4 pr2`} />}
                     </div>
-                    {fullNameErrorState && <p className={errorMessage}>You must enter your name</p>}
+                    {fullnameErrorState && <p className={errorMessage}>You must enter your name</p>}
                   </div>
                   <div className='mv4'>
                   <label 
