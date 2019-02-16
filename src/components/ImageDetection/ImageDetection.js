@@ -9,9 +9,6 @@ import { LoggedUserConsumer } from '../../contexts/LoggedUserContext';
 import models from '../../mockData/models.json';
 
 Clarifai.CELEBRITY_MODEL = 'e466caa0619f444ab97497640cefc4dc';
-const app = new Clarifai.App({
-  apiKey: '554a106d9c1747378c5459a215c0fb80'
-});
 
 class ImageDetection extends React.Component {
   constructor() {
@@ -55,23 +52,32 @@ class ImageDetection extends React.Component {
     const { selectedModelValue, input } = this.state;
     this.setState({imageUrl: input});
 
-    app.models
-      .predict(selectedModelValue, input)
-      .then(response => {
-        if (response) {
-          fetch('http://localhost:3000/image', {
-            method: 'put',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ id })
-          })
-          .then(response => response.json())
-          .then(user => setUserLogged(true, user));
-        }
-        this.displayFaceBox(this.calculateFaceLocation(response))
+    fetch('http://localhost:3000/imageurl', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        imageUrl: input,
+        detectionType: selectedModelValue
       })
-      .catch(err => console.log('Error', err)
+    })
+    .then(response => response.json())
+    .then(response => {
+      if (response) {
+        fetch('http://localhost:3000/image', {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ id })
+        })
+        .then(response => response.json())
+        .then(user => setUserLogged(true, user));
+      }
+      this.displayFaceBox(this.calculateFaceLocation(response))
+    })
+    .catch(err => console.log('Error', err)
     );
   }
 
