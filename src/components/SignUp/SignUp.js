@@ -1,10 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimesCircle, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 
+import Input from '../Input/Input';
 import { LoggedUserConsumer } from '../../contexts/LoggedUserContext';
-import { inputContainer, inputError, errorIcon, errorMessage } from './SignUp.module.scss';
 
 class SignUp extends React.Component {
   constructor(props) {
@@ -21,8 +19,7 @@ class SignUp extends React.Component {
         username: false,
         password: false
       },
-      formSent: false,
-      showPassword: false
+      formSent: false
     }
   }
 
@@ -119,7 +116,6 @@ class SignUp extends React.Component {
   }
 
   render() {
-    const { showPassword } = this.state;
     const { fullname, username, password } = this.state.formData;
     const { fullname: fullnameErrorState, username: usernameErrorState, password: passwordErrorState } = this.state.formErrors;
 
@@ -133,61 +129,32 @@ class SignUp extends React.Component {
                 <fieldset id='sign_in' className='white ba b--transparent ph0 mh0'>
                   <legend className='f3 fw6 ph0 mh0'>Sign Up</legend>
                   <div className='mt4'>
-                    <label 
-                      htmlFor='signup_fullName' 
-                      className='tl db fw6 lh-copy f6'>
-                      Name
-                    </label>
-                    <div className={`${inputContainer} ${fullnameErrorState ? inputError : ''} ba hover-bg-light-silver`}>
-                      <input 
-                        name='signup_fullName' 
-                        id='signup_fullName' 
-                        type='text' 
-                        className='white pa2 input-reset bn bg-transparent hover-black outline-0 w-100'
-                        onChange={this.handleFullnameChange}
-                        value={fullname} />
-                      {fullnameErrorState && <FontAwesomeIcon icon={faTimesCircle} className={`${errorIcon} f4 pr2`} />}
-                    </div>
-                    {fullnameErrorState && <p className={errorMessage}>You must enter your name</p>}
+                    <Input
+                      id='signup_fullname'
+                      errorState={fullnameErrorState}
+                      onInputChange={this.handleFullnameChange}
+                      inputValue={fullname}
+                      errorMessage='You must enter your name'
+                      label='Name' />
                   </div>
                   <div className='mv4'>
-                  <label 
-                      htmlFor='signup_username' 
-                      className='tl db fw6 lh-copy f6'>
-                      Username
-                    </label>
-                    <div className={`${inputContainer} ${usernameErrorState ? inputError : ''} ba hover-bg-light-silver`}>
-                      <input 
-                        name='signup_username' 
-                        id='signup_username' 
-                        type='text' 
-                        className='white pa2 input-reset bn bg-transparent hover-black outline-0 w-100'
-                        onChange={this.handleUsernameChange}
-                        value={username} />
-                        {usernameErrorState && <FontAwesomeIcon icon={faTimesCircle} className={`${errorIcon} f4 pr2`} />}
-                    </div>
-                    {usernameErrorState && <p className={errorMessage}>{username.trim().length > 0 ? 'The username is already taken' : 'You must enter a username'}</p>}
+                    <Input
+                        id='signup_username'
+                        errorState={usernameErrorState}
+                        onInputChange={this.handleUsernameChange}
+                        inputValue={username}
+                        errorMessage={username.trim().length > 0 ? 'The username is already taken' : 'You must enter a username'}
+                        label='Username' />
                   </div>
                   <div className='mv4'>
-                    <label htmlFor='signup_password'
-                      className='tl db fw6 lh-copy f6'>
-                      Password
-                    </label>
-                    <div className={`${inputContainer} ${passwordErrorState ? inputError : ''} ba hover-bg-light-silver`}>
-                      <input 
+                    <Input
                         id='signup_password'
-                        name='signup_password'
-                        type={showPassword ? 'text' : 'password'}
-                        className='white pa2 input-reset bn bg-transparent hover-black outline-0 w-100'
-                        onChange={this.handlePasswordChange}
-                        value={password} />
-                      <FontAwesomeIcon 
-                        icon={showPassword ? faEyeSlash : faEye} 
-                        className='f4 pr2 pointer hover-black'
-                        onClick={() => this.setState({showPassword: !showPassword})} />
-                      {passwordErrorState && <FontAwesomeIcon icon={faTimesCircle} className={`${errorIcon} f4 pr2`} />}
-                    </div>
-                    {passwordErrorState && <p className={errorMessage}>The password must be at least 8 characters long</p>}
+                        errorState={passwordErrorState}
+                        onInputChange={this.handlePasswordChange}
+                        inputValue={password}
+                        errorMessage='The password must be at least 8 characters long'
+                        label='Password'
+                        password />
                   </div>
                 </fieldset>
                 <div>
