@@ -40,7 +40,7 @@ class SignIn extends React.Component {
     this.setState({
       formErrors: {
         ...this.state.formErrors,
-        password: password.length < 8
+        password: false
       },
       formData: {
         ...this.state.formData,
@@ -57,7 +57,7 @@ class SignIn extends React.Component {
 
   fieldsValid = () => {
     const { username, password } = this.state.formData;
-    const passwordValid = password.trim().length >= 8;
+    const passwordValid = password.trim().length > 0;
     const usernameValid = username.trim().length > 0;
 
     this.setState({
@@ -124,7 +124,7 @@ class SignIn extends React.Component {
                         onInputChange={this.handlePasswordChange}
                         inputValue={password}
                         errorState={passwordErrorState}
-                        errorMessage='The password must be at least 8 characters long'
+                        errorMessage='You must enter your password'
                         password />
                   </div>
                 </fieldset>

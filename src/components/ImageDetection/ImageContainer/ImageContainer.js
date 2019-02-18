@@ -1,20 +1,23 @@
 import React from 'react';
 
-import { boundingBox } from './ImageContainer.module.scss';
+import ImageReferences from './ImageReferences/ImageReferences';
+import { boundingBox, container } from './ImageContainer.module.scss';
 
 const ImageContainer = ({ image, box: { topRow, bottomRow, leftCol, rightCol } }) => {
+  console.log('image', image)
   return (
-    <div className="flex-justify-center center ma">
-      <div className="absolute mt2">
+    <div className={`${container} ${image.trim() === '' ? 'dn' : 'flex'} justify-around center ma`}>
+      <div className="relative mt2">
         <img 
           id='inputimage'
           style={{display: `${image === '' ? 'none' : 'block'}`}} 
           src={image}
           alt="Recognize"
-          width='500px'
-          height='auto' />
-          <div className={boundingBox} style={{top: topRow, right: rightCol, bottom: bottomRow, left: leftCol}}></div>
+          height='100%'
+          width='100%' />
+        <div className={boundingBox} style={{top: topRow, right: rightCol, bottom: bottomRow, left: leftCol}}></div>
       </div>
+      <ImageReferences />
     </div>
   );
 }
