@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+import Input from '../Input/Input';
 import { LoggedUserConsumer } from '../../contexts/LoggedUserContext';
 
 class SignIn extends React.Component {
@@ -23,6 +24,12 @@ class SignIn extends React.Component {
     this.setState({
       password: event.target.value
     })
+  }
+
+  onInputKeyPress = (key, setUserLogged) => {
+    if (key === 'Enter') {
+      this.onSubmitSignIn(setUserLogged);
+    }
   }
 
   onSubmitSignIn = setUserLogged => {
@@ -50,31 +57,21 @@ class SignIn extends React.Component {
                 <fieldset id='sign_in' className='white ba b--transparent ph0 mh0'>
                   <legend className='f3 fw6 ph0 mh0'>Sign In</legend>
                   <div className='mt3'>
-                    <label 
-                      htmlFor='signin_username' 
-                      className='tl db fw6 lh-copy f6'>
-                      Username
-                    </label>
-                    <input 
-                      name='signin_username' 
-                      id='signin_username' 
-                      type='text' 
-                      className='white pa2 input-reset ba bg-transparent hover-bg-light-silver hover-black w-100'
-                      value={username}
-                      onChange={this.handleUsernameChange} />
+                    <Input
+                      id='signin_username'
+                      label='Username'
+                      onInputKeyPress={({ key }) => this.onInputKeyPress(key, setUserLogged)}
+                      onInputChange={this.handleUsernameChange}
+                      inputValue={username} />
                   </div>
                   <div className='mv3'>
-                    <label htmlFor='signin_password'
-                      className='tl db fw6 lh-copy f6'>
-                      Password
-                    </label>
-                    <input 
-                      id='signin_password'
-                      name='signin_password'
-                      type='password'
-                      className='white pa2 input-reset ba bg-transparent hover-bg-light-silver hover-black w-100'
-                      value={password}
-                      onChange={this.handlePasswordChange} />
+                    <Input
+                        id='signin_password'
+                        label='Password'
+                        onInputKeyPress={({ key }) => this.onInputKeyPress(key, setUserLogged)}
+                        onInputChange={this.handlePasswordChange}
+                        inputValue={password}
+                        password />
                   </div>
                 </fieldset>
                 <div>

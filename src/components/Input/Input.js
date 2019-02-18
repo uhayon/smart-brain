@@ -15,7 +15,7 @@ class Input extends React.Component {
 
   render() {
     const { showPassword } = this.state;
-    const { id, label, errorState, onInputChange, inputValue, errorMessage, password} = this.props;
+    const { id, label, errorState, onInputChange, inputValue, errorMessage, password, onInputKeyPress} = this.props;
 
     return (
       <>
@@ -30,7 +30,8 @@ class Input extends React.Component {
             type={(password && !showPassword) ? 'password' : 'text'}
             className='white pa2 input-reset bn bg-transparent hover-black outline-0 w-100'
             onChange={onInputChange}
-            value={inputValue} />
+            value={inputValue}
+            onKeyPress={onInputKeyPress ? onInputKeyPress : function(){} } />
           {
             password ?
             <FontAwesomeIcon 

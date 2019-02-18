@@ -82,7 +82,13 @@ class SignUp extends React.Component {
     return fullnameValid && passwordValid && usernameValid;
   }
 
-  onSubmitSignIn = setUserLogged => {
+  onInputKeyPress = (key, setUserLogged) => {
+    if (key === 'Enter') {
+      this.onSubmitSignUp(setUserLogged);
+    }
+  }
+
+  onSubmitSignUp = setUserLogged => {
     if (!this.fieldsValid()) {
       return;
     }
@@ -134,7 +140,9 @@ class SignUp extends React.Component {
                       errorState={fullnameErrorState}
                       onInputChange={this.handleFullnameChange}
                       inputValue={fullname}
+                      onInputKeyPress={({ key }) => this.onInputKeyPress(key, setUserLogged)}
                       errorMessage='You must enter your name'
+
                       label='Name' />
                   </div>
                   <div className='mv4'>
@@ -144,6 +152,7 @@ class SignUp extends React.Component {
                         onInputChange={this.handleUsernameChange}
                         inputValue={username}
                         errorMessage={username.trim().length > 0 ? 'The username is already taken' : 'You must enter a username'}
+                        onInputKeyPress={({ key }) => this.onInputKeyPress(key, setUserLogged)}
                         label='Username' />
                   </div>
                   <div className='mv4'>
@@ -154,13 +163,14 @@ class SignUp extends React.Component {
                         inputValue={password}
                         errorMessage='The password must be at least 8 characters long'
                         label='Password'
+                        onInputKeyPress={({ key }) => this.onInputKeyPress(key, setUserLogged)}
                         password />
                   </div>
                 </fieldset>
                 <div>
                   <button 
                     className='b ph3 pv2 button-reset ba b--white white bg-transparent grow pointer f5 dib hover-bg-light-purple hover-black'
-                    onClick={() => this.onSubmitSignIn(setUserLogged)} >
+                    onClick={() => this.onSubmitSignUp(setUserLogged)} >
                     Sign Up
                   </button>
                 </div>
