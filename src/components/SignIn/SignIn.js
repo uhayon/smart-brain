@@ -9,21 +9,44 @@ class SignIn extends React.Component {
     super(props);
 
     this.state = {
-      username: '',
-      password: ''
+      formData: {
+        username: '',
+        password: ''
+      },
+      formErrors: {
+        username: false,
+        password: false
+      },
+      signInFailed: false
     }
   }
 
   handleUsernameChange = event => {
+    const { value: username } = event.target;
     this.setState({
-      username: event.target.value
-    })
+      formErrors: {
+        ...this.state.formErrors,
+        username: false
+      },
+      formData: {
+        ...this.state.formData,
+        username
+      }   
+    });
   }
 
   handlePasswordChange = event => {
+    const { value: password } = event.target;
     this.setState({
-      password: event.target.value
-    })
+      formErrors: {
+        ...this.state.formErrors,
+        password: password.length < 8
+      },
+      formData: {
+        ...this.state.formData,
+        password: password
+      }   
+    });
   }
 
   onInputKeyPress = (key, setUserLogged) => {
@@ -32,21 +55,48 @@ class SignIn extends React.Component {
     }
   }
 
+  fieldsValid = () => {
+    const { username, password } = this.state.formData;
+    const passwordValid = password.trim().length >= 8;
+    const usernameValid = username.trim().length > 0;
+
+    this.setState({
+      formErrors: {
+        username: !usernameValid,
+        password: !passwordValid
+      }
+    });
+
+    return passwordValid && usernameValid;
+  }
+
   onSubmitSignIn = setUserLogged => {
+    if (!this.fieldsValid()) {
+      return;
+    }
+
     fetch('http://localhost:3000/signin', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(this.state)
+      body: JSON.stringify(this.state.formData)
     })
-    .then(response => response.json())
+    .then(response => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw Error();
+    })
     .then(user => setUserLogged(true, user))
-    .catch(err => setUserLogged(false));
+    .catch(err => {
+      this.setState({ signInFailed: true });
+    });
   }
 
   render() {
-    const { username, password } = this.state;
+    const { username, password } = this.state.formData;
+    const { username: usernameErrorState, password: passwordErrorState } = this.state.formErrors;
     return (
       <LoggedUserConsumer>
         {
@@ -62,7 +112,9 @@ class SignIn extends React.Component {
                       label='Username'
                       onInputKeyPress={({ key }) => this.onInputKeyPress(key, setUserLogged)}
                       onInputChange={this.handleUsernameChange}
-                      inputValue={username} />
+                      inputValue={username}
+                      errorState={usernameErrorState}
+                      errorMessage='You must enter your username' />
                   </div>
                   <div className='mv3'>
                     <Input
@@ -71,9 +123,12 @@ class SignIn extends React.Component {
                         onInputKeyPress={({ key }) => this.onInputKeyPress(key, setUserLogged)}
                         onInputChange={this.handlePasswordChange}
                         inputValue={password}
+                        errorState={passwordErrorState}
+                        errorMessage='The password must be at least 8 characters long'
                         password />
                   </div>
                 </fieldset>
+                {this.state.signInFailed ? <p className='mb4' style={{color: '#c0392b'}}>Username and password combination invalid</p> : null}
                 <div>
                   <button 
                     className='b ph3 pv2 button-reset ba b--white white bg-transparent grow pointer f5 dib hover-bg-light-purple hover-black'

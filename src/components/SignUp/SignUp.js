@@ -18,8 +18,7 @@ class SignUp extends React.Component {
         fullname: false,
         username: false,
         password: false
-      },
-      formSent: false
+      }
     }
   }
 
@@ -103,9 +102,9 @@ class SignUp extends React.Component {
     .then(response => {
       if (response.ok) {
         return response.json(); 
-      } else {
-        throw Error();
       }
+      
+      throw Error();
     })
     .then(user => {
       console.log('lala',user)
