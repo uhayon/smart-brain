@@ -3,23 +3,63 @@ import React from 'react';
 import ImageReferences from './ImageReferences/ImageReferences';
 import { boundingBox, container } from './ImageContainer.module.scss';
 
-const ImageContainer = ({ image, box: { topRow, bottomRow, leftCol, rightCol } }) => {
-  console.log('image', image)
-  return (
-    <div className={`${container} ${image.trim() === '' ? 'dn' : 'flex'} justify-around center ma`}>
-      <div className="relative mt2">
-        <img 
-          id='inputimage'
-          style={{display: `${image === '' ? 'none' : 'block'}`}} 
-          src={image}
-          alt="Recognize"
-          height='100%'
-          width='100%' />
-        <div className={boundingBox} style={{top: topRow, right: rightCol, bottom: bottomRow, left: leftCol}}></div>
+class ImageContainer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      resizeBoxes: false
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.resizeBoxes.bind(this));
+  }
+
+  componentWillMount() {
+    window.removeEventListener('resize', this.resizeBoxes.bind(this))
+  }
+
+  resizeBoxes = () => {
+    this.setState({resizeBoxes: true});
+  }
+
+  calculateBoundingBoxVertices = (boundingBox) => {
+    const image = document.getElementById('inputimage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+  
+    return {
+      leftCol: boundingBox.left_col * width,
+      topRow: boundingBox.top_row * height,
+      rightCol: width - (boundingBox.right_col * width),
+      bottomRow: height - (boundingBox.bottom_row * height)
+    };
+  }
+
+  render() {
+    const { image, references } = this.props;
+    return (
+      <div className={`${container} ${image.trim() === '' ? 'dn' : 'flex'} justify-around center ma`}>
+        <div className="relative">
+          <img 
+            id='inputimage'
+            style={{display: `${image === '' ? 'none' : 'block'}`}} 
+            src={image}
+            alt="Recognize"
+            height='100%'
+            width='100%' />
+          {
+            references.map(({box}, i) => {
+              const {topRow, bottomRow, leftCol, rightCol} = this.calculateBoundingBoxVertices(box);
+              return <div key={`reference-${i}`} className={boundingBox} style={{top: topRow, right: rightCol, bottom: bottomRow, left: leftCol}}></div>
+            })
+          }
+        </div>
+        <ImageReferences />
       </div>
-      <ImageReferences />
-    </div>
-  );
-}
+    );
+  }
+} // = ({ image, references }) => {
+
 
 export default ImageContainer;

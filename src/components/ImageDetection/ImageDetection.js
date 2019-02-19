@@ -17,27 +17,9 @@ class ImageDetection extends React.Component {
     this.state = {
       input: '',
       imageUrl: '',
-      selectedModelValue: Clarifai[models[0].value],
-      box: {}
+      selectedModelValue: models[0].value,
+      references: []
     };
-  }
-
-  calculateFaceLocation = (data) => {
-    const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
-    const image = document.getElementById('inputimage');
-    const width = Number(image.width);
-    const height = Number(image.height);
-
-    return {
-      leftCol: clarifaiFace.left_col * width,
-      topRow: clarifaiFace.top_row * height,
-      rightCol: width - (clarifaiFace.right_col * width),
-      bottomRow: height - (clarifaiFace.bottom_row * height)
-    };
-  }
-
-  displayFaceBox = (box) => {
-    this.setState({box});
   }
 
   onFormInputChange = (event) => {
@@ -45,7 +27,8 @@ class ImageDetection extends React.Component {
   }
 
   onFormModelChange = (event) => {
-    this.setState({selectedModelValue: Clarifai[event.target.value]})
+    window.a = event.target;
+    this.setState({selectedModelValue: event.target.value})
   }
 
   onImageSubmit = (id, setUserLogged) => {
@@ -75,18 +58,66 @@ class ImageDetection extends React.Component {
         .then(response => response.json())
         .then(user => setUserLogged(true, user));
       }
-      this.displayFaceBox(this.calculateFaceLocation(response))
+      this.handleImageRecognition(selectedModelValue, response);
     })
     .catch(err => console.log('Error', err)
     );
   }
 
+  handleImageRecognition = (selectedModel, apiResponse) => {
+    switch(selectedModel) {
+      case 'CELEBRITY_MODEL':
+        break;
+      case 'COLOR_MODEL':
+        break;
+      case 'FACE_DETECT_MODEL':
+        this.handleFaceDetection(apiResponse);
+        break;
+      case 'FOOD_MODEL':
+        break;
+      default:
+        return;
+    }
+  }
+
+  calculateBoundingBoxVertices = (boundingBox) => {
+    const image = document.getElementById('inputimage');
+    const width = Number(image.width);
+    const height = Number(image.height);
+
+    return {
+      leftCol: boundingBox.left_col * width,
+      topRow: boundingBox.top_row * height,
+      rightCol: width - (boundingBox.right_col * width),
+      bottomRow: height - (boundingBox.bottom_row * height)
+    };
+  }
+
+  handleFaceDetection = (apiResponse) => {
+    const faces = [];
+    const { regions: recognizedFaces } = apiResponse.outputs[0].data;
+    for (let i = 0; i < recognizedFaces.length; i++) {
+      const { bounding_box } = recognizedFaces[i].region_info;
+      faces.push({
+        description: `Face ${i + 1}`,
+        box: bounding_box
+        // box: this.calculateBoundingBoxVertices(bounding_box)
+      });
+    };
+
+    this.setReferences(faces);
+  }
+
+  setReferences = (references) => {
+    this.setState({references});
+  }
+
   getSelectedModel = () => {
-    return models.find(model => Clarifai[model.value] === this.state.selectedModelValue) || models[0];
+    return models.find(model => model.value === this.state.selectedModelValue) || models[0];
   }
 
   render() {
-    const { input, imageUrl, box } = this.state;
+    const { input, imageUrl, references } = this.state;
     const selectedModel = this.getSelectedModel();
 
     return (
@@ -103,7 +134,7 @@ class ImageDetection extends React.Component {
                   onFormModelChange={this.onFormModelChange}
                   selectedModel={selectedModel}
                   models={models} />
-                <ImageContainer image={imageUrl} box={box} />
+                <ImageContainer image={imageUrl} references={references} />
               </div>
             );
           }
