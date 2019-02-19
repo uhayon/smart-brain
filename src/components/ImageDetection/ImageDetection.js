@@ -107,7 +107,7 @@ class ImageDetection extends React.Component {
                   onFormModelChange={this.onFormModelChange}
                   selectedModel={selectedModel}
                   models={models} />
-                <ImageContainer image={imageUrl} references={references} />
+                <ImageContainer image={imageUrl} references={references} selectedModel={selectedModel} />
               </div>
             );
           }

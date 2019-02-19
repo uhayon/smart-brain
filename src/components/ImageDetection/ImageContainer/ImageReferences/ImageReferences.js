@@ -21,23 +21,44 @@ const unhighlightBox = key => {
   }
 }
 
-const ImageReferences = ({ references }) => (
-  <div style={{minWidth: '25%'}}>
-    <ul className='list pl0'>
-      {
-        references.map(({ description, key }) =>
-          <li 
-            className={`${referenceElement} pointer pa2 ttc`}
-            onMouseOver={() => highlightBox(key)}
-            onMouseOut={() => unhighlightBox(key)}
-            key={description}
-            data-reference={key} >
-            {description}
-          </li>
-        )
-      }
-    </ul>
-  </div>
-);
+const ImageReferences = ({ references, selectedModel: { value: selectedModel } }) => {
+  console.log(selectedModel)
+  return (
+    <div style={{minWidth: '25%'}}>
+      <ul className='list pl0'>
+        {
+          references.map(({ description, key }) =>
+            <li 
+              style={
+                selectedModel === 'COLOR_MODEL' ?
+                {
+                  backgroundColor: key
+                } :
+                {}
+              }
+              className={`${referenceElement} pointer pa2 ttc`}
+              onMouseOver={() => highlightBox(key)}
+              onMouseOut={() => unhighlightBox(key)}
+              key={description}
+              data-reference={key} >
+              <span
+                style={
+                  selectedModel === 'COLOR_MODEL' ?
+                  {
+                    backgroundColor: 'rgba(0, 0, 0, .75)',
+                  color: '#fff'
+                  } :
+                  {}
+                }
+              >
+                {description}
+              </span>
+            </li>
+          )
+        }
+      </ul>
+    </div>
+  );
+};
 
 export default ImageReferences;

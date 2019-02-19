@@ -56,7 +56,7 @@ class ImageContainer extends React.Component {
   }
 
   render() {
-    const { image, references } = this.props;
+    const { image, references, selectedModel } = this.props;
     return (
       <div className={`${container} ${image.trim() === '' ? 'dn' : 'flex'} justify-around flex-column  center ma`}>
         <div className="relative">
@@ -86,7 +86,7 @@ class ImageContainer extends React.Component {
             })
           }
         </div>
-        <ImageReferences references={references} />
+        <ImageReferences references={references} selectedModel={selectedModel} />
       </div>
     );
   }
