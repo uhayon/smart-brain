@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { referenceElement } from './ImageReferences.module.scss';
+
 const getBox = key => {
   return document.querySelector(`[data-reference="${key}"]`);
 }
@@ -20,17 +22,19 @@ const unhighlightBox = key => {
 
 const ImageReferences = ({ references }) => (
   <div style={{minWidth: '25%'}}>
-    {
-      references.map(({ description, key }) =>
-        <p 
-          className='pointer'
-          onMouseOver={() => highlightBox(key)}
-          onMouseOut={() => unhighlightBox(key)}
-          key={description}>
-          {description}
-        </p>
-      )
-    }
+    <ul className='list pl0'>
+      {
+        references.map(({ description, key }) =>
+          <li 
+            className={`${referenceElement} pointer pa2`}
+            onMouseOver={() => highlightBox(key)}
+            onMouseOut={() => unhighlightBox(key)}
+            key={description}>
+            {description}
+          </li>
+        )
+      }
+    </ul>
   </div>
 );
 

@@ -67,7 +67,7 @@ class App extends Component {
         <LoggedUserProvider value={{...this.state, setUserLogged: this.setUserLogged}}>
           <Header />
           <Router>
-            <div className='h-100'>
+            <div className='h-100 overflow-y-auto'>
               <Route 
                 exact path='/home' 
                 render={(props) => this.checkRoute(props, ImageDetection, '/signin', userLogged)} />
