@@ -1,7 +1,7 @@
 import React from 'react';
 
 import ModelSelector from './ModelSelector/ModelSelector';
-import { form, formInput } from './ImageLinkForm.module.scss';
+import { form, formInput, formContainer } from './ImageLinkForm.module.scss';
 
 const ImageLinkForm = ({ onFormInputChange, onImageSubmit, inputValue, onFormModelChange, selectedModel, models }) => {
   return (
@@ -11,7 +11,7 @@ const ImageLinkForm = ({ onFormInputChange, onImageSubmit, inputValue, onFormMod
       </p>
       <div className='flex-justify-center center'>
         <div className={`pa4 br3 shadow-5 flex-justify-center center column ${form}`}>
-          <div className="flex-justify-center center" style={{margin: '0'}}>
+          <div className={`${formContainer} center`} style={{margin: '0'}}>
             <ModelSelector
               onFormModelChange={onFormModelChange}
               selectedModel={selectedModel}
