@@ -58,26 +58,14 @@ class ImageDetection extends React.Component {
         .then(response => response.json())
         .then(user => setUserLogged(true, user));
       }
-      this.handleImageRecognition(selectedModelValue, response);
+      this.handleImageRecognition(response);
     })
     .catch(err => console.log('Error', err)
     );
   }
 
-  handleImageRecognition = (selectedModel, apiResponse) => {
-    switch(selectedModel) {
-      case 'CELEBRITY_MODEL':
-        break;
-      case 'COLOR_MODEL':
-        break;
-      case 'FACE_DETECT_MODEL':
-        this.handleFaceDetection(apiResponse);
-        break;
-      case 'FOOD_MODEL':
-        break;
-      default:
-        return;
-    }
+  handleImageRecognition = apiResponse => {
+    this.setReferences(apiResponse);
   }
 
   calculateBoundingBoxVertices = (boundingBox) => {
@@ -91,21 +79,6 @@ class ImageDetection extends React.Component {
       rightCol: width - (boundingBox.right_col * width),
       bottomRow: height - (boundingBox.bottom_row * height)
     };
-  }
-
-  handleFaceDetection = (apiResponse) => {
-    const faces = [];
-    const { regions: recognizedFaces } = apiResponse.outputs[0].data;
-    for (let i = 0; i < recognizedFaces.length; i++) {
-      const { bounding_box } = recognizedFaces[i].region_info;
-      faces.push({
-        description: `Face ${i + 1}`,
-        key: `Reference-${i + 1}`,
-        box: bounding_box
-      });
-    };
-
-    this.setReferences(faces);
   }
 
   setReferences = (references) => {
