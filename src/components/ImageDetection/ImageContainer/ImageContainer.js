@@ -49,13 +49,13 @@ class ImageContainer extends React.Component {
             height='100%'
             width='100%' />
           {
-            references.map(({box}, i) => {
+            references.map(({box, key}, i) => {
               const {topRow, bottomRow, leftCol, rightCol} = this.calculateBoundingBoxVertices(box);
-              return <div key={`reference-${i}`} className={boundingBox} style={{top: topRow, right: rightCol, bottom: bottomRow, left: leftCol}}></div>
+              return <div data-reference={key} key={key} className={boundingBox} style={{top: topRow, right: rightCol, bottom: bottomRow, left: leftCol}}></div>
             })
           }
         </div>
-        <ImageReferences />
+        <ImageReferences references={references} />
       </div>
     );
   }

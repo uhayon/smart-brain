@@ -20,6 +20,10 @@
   background-color: rgba(0, 0, 0, .75);
 }
 
+.box-highlighted {
+  background-color: rgba(20, 157, 242, .5)
+}
+
 button {
   cursor: pointer;
 }

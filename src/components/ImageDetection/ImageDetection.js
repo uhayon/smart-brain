@@ -100,8 +100,8 @@ class ImageDetection extends React.Component {
       const { bounding_box } = recognizedFaces[i].region_info;
       faces.push({
         description: `Face ${i + 1}`,
+        key: `Reference-${i + 1}`,
         box: bounding_box
-        // box: this.calculateBoundingBoxVertices(bounding_box)
       });
     };
 
