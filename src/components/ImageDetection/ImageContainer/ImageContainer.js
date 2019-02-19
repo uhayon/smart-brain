@@ -58,24 +58,27 @@ class ImageContainer extends React.Component {
   render() {
     const { image, references } = this.props;
     return (
-      <div className={`${container} ${image.trim() === '' ? 'dn' : 'flex'} justify-around center ma`}>
+      <div className={`${container} ${image.trim() === '' ? 'dn' : 'flex'} justify-around flex-column  center ma`}>
         <div className="relative">
           <img 
             id='inputimage'
             style={{display: `${image === '' ? 'none' : 'block'}`}} 
             src={image}
             alt="Recognize"
-            height='100%'
             width='100%' />
           {
-            references.map(({box, key}, i) => {
-              const {topRow, bottomRow, leftCol, rightCol} = this.calculateBoundingBoxVertices(box);
+            references.map(({box, key}) => {
+              let boxStyles = {};
+              if (box) {
+                  const {topRow, bottomRow, leftCol, rightCol} = this.calculateBoundingBoxVertices(box);
+                  boxStyles = {top: topRow, right: rightCol, bottom: bottomRow, left: leftCol};
+              }
               return (
                 <div 
                   data-reference={key} 
                   key={key} 
                   className={boundingBox} 
-                  style={{top: topRow, right: rightCol, bottom: bottomRow, left: leftCol}}
+                  style={boxStyles}
                   onMouseEnter={() => this.highlightReference(key)}
                   onMouseLeave={() => this.unhighlightReference(key)} >
                 </div>
@@ -87,7 +90,7 @@ class ImageContainer extends React.Component {
       </div>
     );
   }
-} // = ({ image, references }) => {
+}
 
 
 export default ImageContainer;
