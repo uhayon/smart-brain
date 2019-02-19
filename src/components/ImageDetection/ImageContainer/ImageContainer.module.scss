@@ -1,6 +1,6 @@
 .boundingBox {
     position: absolute;
-    box-shadow: 0 0 0 3px #149df2 inset;
+    box-shadow: 0 0 0 3px #a463f2 inset;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -10,6 +10,11 @@
     -ms-flex-pack: center;
     justify-content: center;
     cursor: pointer;
+
+    &:hover,
+    &.boundingBoxHovered {
+        background-color: rgba(164, 99, 242, .5);
+    }
 }
 
 .container {

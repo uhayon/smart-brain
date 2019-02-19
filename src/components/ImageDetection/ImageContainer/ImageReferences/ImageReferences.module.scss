@@ -1,7 +1,8 @@
 .referenceElement {
-    &:hover {
+    &:hover,
+    &.hovered {
         font-weight: bold;
         color: #fff;
-        background-color: #149df2;
+        background-color: #a463f2;
     }
 }

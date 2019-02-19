@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { referenceElement } from './ImageReferences.module.scss';
+import { boundingBoxHovered } from '../ImageContainer.module.scss';
 
 const getBox = key => {
   return document.querySelector(`[data-reference="${key}"]`);
@@ -9,14 +10,14 @@ const getBox = key => {
 const highlightBox = key => {
   const box = getBox(key);
   if (box) {
-    box.classList.add('box-highlighted');
+    box.classList.add(boundingBoxHovered);
   }
 }
 
 const unhighlightBox = key => {
   const box = getBox(key);
   if (box) {
-    box.classList.remove('box-highlighted');
+    box.classList.remove(boundingBoxHovered);
   }
 }
 
@@ -26,10 +27,11 @@ const ImageReferences = ({ references }) => (
       {
         references.map(({ description, key }) =>
           <li 
-            className={`${referenceElement} pointer pa2`}
+            className={`${referenceElement} pointer pa2 ttc`}
             onMouseOver={() => highlightBox(key)}
             onMouseOut={() => unhighlightBox(key)}
-            key={description}>
+            key={description}
+            data-reference={key} >
             {description}
           </li>
         )
