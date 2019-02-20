@@ -68,19 +68,6 @@ class ImageDetection extends React.Component {
     this.setReferences(apiResponse);
   }
 
-  calculateBoundingBoxVertices = (boundingBox) => {
-    const image = document.getElementById('inputimage');
-    const width = Number(image.width);
-    const height = Number(image.height);
-
-    return {
-      leftCol: boundingBox.left_col * width,
-      topRow: boundingBox.top_row * height,
-      rightCol: width - (boundingBox.right_col * width),
-      bottomRow: height - (boundingBox.bottom_row * height)
-    };
-  }
-
   setReferences = (references) => {
     this.setState({references});
   }
