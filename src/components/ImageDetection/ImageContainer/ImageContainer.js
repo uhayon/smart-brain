@@ -13,11 +13,11 @@ class ImageContainer extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('resize', this.resizeBoxes.bind(this));
+    window.addEventListener('resize', this.resizeBoxes);
   }
 
-  componentWillMount() {
-    window.removeEventListener('resize', this.resizeBoxes.bind(this))
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.resizeBoxes)
   }
 
   resizeBoxes = () => {

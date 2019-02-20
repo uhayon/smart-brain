@@ -14,12 +14,7 @@ const Header = () => {
           {
             userLogged ? 
             <nav className={header}>
-              <UserMenu user={userData} />
-              <p 
-                className='link dim black underline pa2 pointer white mh3'
-                onClick={() => setUserLogged(false)}>
-                Sign Out
-              </p>
+              <UserMenu user={userData} setUserLogged={setUserLogged} />
             </nav>
             : null
           }

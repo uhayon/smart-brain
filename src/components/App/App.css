@@ -20,6 +20,10 @@
   background-color: rgba(0, 0, 0, .75);
 }
 
+.bg-light-purple-50 {
+  background-color: rgba(164, 99, 242, .5); 
+}
+
 button {
   cursor: pointer;
 }
