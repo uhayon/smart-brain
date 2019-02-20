@@ -1,6 +1,7 @@
 import React from 'react';
 
-import {menu, menuOpened, optionsContainer, option} from './UserMenu.module.scss';
+import {menu, menuOpened, optionsContainer} from './UserMenu.module.scss';
+import UserMenuOption from './UserMenuOption/UserMenuOption';
 
 class UserMenu extends React.Component {
   constructor(props) {
@@ -47,12 +48,8 @@ class UserMenu extends React.Component {
         </div>
         <div className={`${menu} ${menuOpen ? menuOpened : ''}`}>
           <div className={optionsContainer}>
-            <hr style={{width: '75%'}} />
-            <p
-              className={`link dim black pa2 pointer white ma0 w-100 ${option}`}
-              onClick={() => setUserLogged(false)}>
-              Sign Out
-            </p>
+            <UserMenuOption divider />
+            <UserMenuOption label='Sign Out' onOptionClick={() => setUserLogged(false)} />
           </div>
         </div>
       </div>

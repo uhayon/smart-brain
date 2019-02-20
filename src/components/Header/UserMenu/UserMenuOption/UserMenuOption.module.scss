@@ -1,0 +1,11 @@
+$purple: #a463f2;
+
+.option {
+    width: 100%;
+    &:hover {
+        background-color: #fff;
+        color: $purple;
+        font-weight: bold;
+        opacity: 1;
+    }
+}

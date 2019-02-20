@@ -29,15 +29,5 @@ $purple: #a463f2;
         display: flex;
         flex-direction: column;
         align-items: center;
-
-        .option {
-            width: 100%;
-            opacity: 1;
-            &:hover {
-                background-color: #fff;
-                color: $purple;
-                font-weight: bold;
-            }
-        }
     }
 }
