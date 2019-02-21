@@ -2,20 +2,23 @@ import React from 'react';
 
 import {menu, menuOpened, optionsContainer} from './UserMenu.module.scss';
 import UserMenuOption from './UserMenuOption/UserMenuOption';
+import Modal from '../../Modal/Modal';
 
 class UserMenu extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      menuOpen: false
+      menuOpen: false,
+      modalOpen: false
     }
   }
 
   handleMenuOpen = event => {
     event.stopPropagation();
-    const {menuOpen} = this.state;
-    this.setOpenedStatus(!menuOpen);
+    this.setState(prevState => ({
+      menuOpen: !prevState.menuOpen
+    }));
   }
 
   setOpenedStatus = openStatus => {
@@ -24,6 +27,10 @@ class UserMenu extends React.Component {
 
   closeMenu = () => {
     this.setOpenedStatus(false)
+  }
+
+  showProfileModal = () => {
+    this.setState({modalOpen: true });
   }
 
   componentDidMount() {
@@ -36,23 +43,33 @@ class UserMenu extends React.Component {
 
   render() {
     const { user: { username }, setUserLogged } = this.props;
-    const { menuOpen } = this.state;
+    const { menuOpen, modalOpen } = this.state;
 
     return (
-      <div className='dib relative'>
-        <div className='tc ma2 pointer' onClick={this.handleMenuOpen}>
-          <img 
-            src={`https://robohash.org/${username}`} 
-            className='br-100 h3 w3 dib bg-light-purple-50'
-            alt='avatar' />
-        </div>
-        <div className={`${menu} ${menuOpen ? menuOpened : ''}`}>
-          <div className={optionsContainer}>
-            <UserMenuOption divider />
-            <UserMenuOption label='Sign Out' onOptionClick={() => setUserLogged(false)} />
+      <>
+        <div className='dib relative'>
+          <div className='tc ma2 pointer' onClick={this.handleMenuOpen}>
+            <img 
+              src={`https://robohash.org/${username}`} 
+              className='br-100 h3 w3 dib bg-light-purple-50'
+              alt='avatar' />
+          </div>
+          <div className={`${menu} ${menuOpen ? menuOpened : ''}`}>
+            <div className={optionsContainer}>
+              <UserMenuOption label='View Profile' onOptionClick={this.showProfileModal} />
+              <UserMenuOption divider />
+              <UserMenuOption label='Sign Out' onOptionClick={() => setUserLogged(false)} />
+            </div>
           </div>
         </div>
-      </div>
+        {
+          modalOpen ?
+          <Modal handleClose={() => this.setState({modalOpen: false})}>
+            {'hola'}
+          </Modal> :
+          null
+        }
+      </>
     );
   }
 }
