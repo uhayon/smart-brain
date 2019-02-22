@@ -29,9 +29,9 @@ class Input extends React.Component {
             name={id}
             type={(password && !showPassword) ? 'password' : 'text'}
             className='white pa2 input-reset bn bg-transparent hover-black outline-0 w-100'
-            onChange={onInputChange}
+            onChange={onInputChange || function(){} }
             value={inputValue}
-            onKeyPress={onInputKeyPress ? onInputKeyPress : function(){} } />
+            onKeyPress={onInputKeyPress || function(){} } />
           {
             password ?
             <FontAwesomeIcon 

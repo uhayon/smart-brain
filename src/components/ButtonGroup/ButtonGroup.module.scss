@@ -1,0 +1,19 @@
+.buttonGroup {
+    > button {
+        &:active,
+        &:focus {
+            opacity: 1;
+        }
+
+        &:hover:not(.buttonActive) {
+            text-decoration: underline;
+        }
+
+        &.buttonActive {
+            font-weight: bold;
+            background-color: #a463f2;
+            color: #fff;
+            border-color: #a463f2;
+        }
+    }
+}

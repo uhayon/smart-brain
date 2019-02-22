@@ -3,11 +3,10 @@ $purple: #a463f2;
 .menu {
     position: absolute;
     right: 0;
-    opacity: 0;
-    transition: opacity .2s ease-in;
+    display: none;
     min-width: 150px;        
     &.menuOpened {
-        opacity: 1;
+        display: block;
     }
 
 

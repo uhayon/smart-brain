@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { modalContainer, modal } from './Modal.module.scss';
+import { modalContainer } from './Modal.module.scss';
 
 const modalRoot = document.getElementById('modal-root');
 
@@ -29,7 +29,7 @@ class Modal extends React.Component {
     return ReactDOM.createPortal(
       <div className={modalContainer} onClick={fnClose}>
         <div 
-          className={`${modal} br3 flex flex-column justify-between items-center bg-purple pa3`}
+          className={`w-100 w-75-m w-50-l h-100 h-75-m h-50-l br3 flex flex-column justify-between items-center bg-purple pa3`}
           onClick={this.onModalClick} >
           {this.props.children}
         </div>
