@@ -29,7 +29,7 @@ class Modal extends React.Component {
     return ReactDOM.createPortal(
       <div className={modalContainer} onClick={fnClose}>
         <div 
-          className={`${modal} br3 flex justify-center items-center bg-purple`}
+          className={`${modal} br3 flex flex-column justify-between items-center bg-purple pa3`}
           onClick={this.onModalClick} >
           {this.props.children}
         </div>

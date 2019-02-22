@@ -3,6 +3,7 @@ import React from 'react';
 import {menu, menuOpened, optionsContainer} from './UserMenu.module.scss';
 import UserMenuOption from './UserMenuOption/UserMenuOption';
 import Modal from '../../Modal/Modal';
+import Profile from './Profile/Profile';
 
 class UserMenu extends React.Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class UserMenu extends React.Component {
   handleMenuOpen = event => {
     event.stopPropagation();
     this.setState(prevState => ({
+      ...prevState,
       menuOpen: !prevState.menuOpen
     }));
   }
@@ -42,7 +44,7 @@ class UserMenu extends React.Component {
   }
 
   render() {
-    const { user: { username }, setUserLogged } = this.props;
+    const { user, setUserLogged } = this.props;
     const { menuOpen, modalOpen } = this.state;
 
     return (
@@ -50,7 +52,7 @@ class UserMenu extends React.Component {
         <div className='dib relative'>
           <div className='tc ma2 pointer' onClick={this.handleMenuOpen}>
             <img 
-              src={`https://robohash.org/${username}`} 
+              src={`https://robohash.org/${user.username}`} 
               className='br-100 h3 w3 dib bg-light-purple-50'
               alt='avatar' />
           </div>
@@ -63,11 +65,10 @@ class UserMenu extends React.Component {
           </div>
         </div>
         {
-          modalOpen ?
+          modalOpen &&
           <Modal handleClose={() => this.setState({modalOpen: false})}>
-            {'hola'}
-          </Modal> :
-          null
+            <Profile user={user} handleCloseModal={() => this.setState({modalOpen: false})}/>
+          </Modal>
         }
       </>
     );

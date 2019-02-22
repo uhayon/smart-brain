@@ -18,7 +18,8 @@ class ImageDetection extends React.Component {
       input: '',
       imageUrl: '',
       selectedModelValue: models[0].value,
-      references: []
+      references: [],
+      isSearching: false
     };
   }
 
@@ -27,41 +28,46 @@ class ImageDetection extends React.Component {
   }
 
   onFormModelChange = (event) => {
-    window.a = event.target;
-    this.setState({selectedModelValue: event.target.value})
+    this.setState({
+      selectedModelValue: event.target.value,
+      references: []
+    });
   }
 
   onImageSubmit = (id, setUserLogged) => {
     const { selectedModelValue, input } = this.state;
-    this.setState({imageUrl: input});
-
-    fetch('http://localhost:3000/imageurl', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        imageUrl: input,
-        detectionType: selectedModelValue
-      })
-    })
-    .then(response => response.json())
-    .then(response => {
-      if (response) {
-        fetch('http://localhost:3000/image', {
-          method: 'put',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ id })
+    this.setState({
+      imageUrl: input,
+      isSearching: true
+    }, () => {
+      fetch('http://localhost:3000/imageurl', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          imageUrl: input,
+          detectionType: selectedModelValue
         })
-        .then(response => response.json())
-        .then(user => setUserLogged(true, user));
-      }
-      this.handleImageRecognition(response);
-    })
-    .catch(err => console.log('Error', err)
-    );
+      })
+      .then(response => response.json())
+      .then(response => {
+        if (response) {
+          fetch('http://localhost:3000/image', {
+            method: 'put',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id })
+          })
+          .then(response => response.json())
+          .then(user => setUserLogged(true, user));
+        }
+        this.handleImageRecognition(response);
+      })
+      .catch(err => console.log('Error', err)
+      );
+    });
   }
 
   handleImageRecognition = apiResponse => {
@@ -69,7 +75,10 @@ class ImageDetection extends React.Component {
   }
 
   setReferences = (references) => {
-    this.setState({references});
+    this.setState({
+      references,
+      isSearching: false
+    });
   }
 
   getSelectedModel = () => {
@@ -77,7 +86,7 @@ class ImageDetection extends React.Component {
   }
 
   render() {
-    const { input, imageUrl, references } = this.state;
+    const { input, imageUrl, references, isSearching } = this.state;
     const selectedModel = this.getSelectedModel();
 
     return (
@@ -94,7 +103,11 @@ class ImageDetection extends React.Component {
                   onFormModelChange={this.onFormModelChange}
                   selectedModel={selectedModel}
                   models={models} />
-                <ImageContainer image={imageUrl} references={references} selectedModel={selectedModel} />
+                <ImageContainer 
+                  image={imageUrl}
+                  references={references}
+                  selectedModel={selectedModel} 
+                  isSearching={isSearching} />
               </div>
             );
           }

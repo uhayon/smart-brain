@@ -56,7 +56,7 @@ class ImageContainer extends React.Component {
   }
 
   render() {
-    const { image, references, selectedModel } = this.props;
+    const { image, references, selectedModel, isSearching } = this.props;
     return (
       <div className={`${container} ${image.trim() === '' ? 'dn' : 'flex'} justify-around center ma`}>
         <div className="relative">
@@ -65,7 +65,8 @@ class ImageContainer extends React.Component {
             style={{display: `${image === '' ? 'none' : 'block'}`}} 
             src={image}
             alt="Recognize"
-            width='100%' />
+            width='100%'
+            height='100%' />
           {
             references.map(({box, key}) => {
               let boxStyles = {};
@@ -86,7 +87,10 @@ class ImageContainer extends React.Component {
             })
           }
         </div>
-        <ImageReferences references={references} selectedModel={selectedModel} />
+        <ImageReferences 
+          references={references}
+          selectedModel={selectedModel}
+          isSearching={isSearching} />
       </div>
     );
   }

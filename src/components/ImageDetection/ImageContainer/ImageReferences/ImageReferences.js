@@ -3,6 +3,8 @@ import React from 'react';
 import { referenceElement } from './ImageReferences.module.scss';
 import { boundingBoxHovered } from '../ImageContainer.module.scss';
 
+import Spinner from '../../../SuspenseLoading/Spinner/Spinner';
+
 const getBox = key => {
   return document.querySelector(`[data-reference="${key}"]`);
 }
@@ -21,12 +23,14 @@ const unhighlightBox = key => {
   }
 }
 
-const ImageReferences = ({ references, selectedModel: { value: selectedModel } }) => {
+const ImageReferences = ({ isSearching, references, selectedModel: { value: selectedModel } }) => {
   console.log(selectedModel)
   return (
     <div style={{minWidth: '25%'}}>
       <ul className='list pl0'>
         {
+          isSearching ?
+          <Spinner /> :
           references.map(({ description, key }) =>
             <li 
               style={
