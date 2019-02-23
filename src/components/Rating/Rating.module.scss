@@ -1,0 +1,12 @@
+$gold: #DAA520;
+
+.ratingStar {
+    stroke-width: 20;
+    stroke: $gold;
+    color: transparent;
+    font-size: 2rem;
+
+    &.starActive {
+        color: $gold;
+    }
+}

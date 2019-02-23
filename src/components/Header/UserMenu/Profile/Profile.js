@@ -2,6 +2,7 @@ import React from 'react';
 
 import ButtonGroup from '../../../ButtonGroup/ButtonGroup';
 import Input from '../../../Input/Input';
+import Rating from '../../../Rating/Rating';
 
 class Profile extends React.Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class Profile extends React.Component {
           throw Error();
         }
       })
-      .then(profile => this.setState({ profile }))
+      .then(profile => this.setState({ ...profile }))
       .catch(err => this.setState({ ...this.getInitialState() }));
   }
 
@@ -27,13 +28,33 @@ class Profile extends React.Component {
     return {
       rating: 0,
       age: 0,
-      favouriteDetectionType: null
+      favouritedetectiontype: null,
+      errorState: false
     };
+  }
+
+  handleSaveProfile = () => {
+    const { errorState, ...profile } = this.state
+    fetch(`http://localhost:3000/profile/${this.props.user.id}`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(profile)
+    })
+    .then(response => {
+      if (response.ok) {
+        return this.props.handleCloseModal();
+      } else {
+        throw Error();
+      }
+    })
+    .catch(err => this.setState({ errorState: true }));
   }
 
   render() {
     const { user, handleCloseModal } = this.props;
-    const { age } = this.state;
+    const { age, rating, favouritedetectiontype, errorState } = this.state;
 
     return (
       <>
@@ -57,10 +78,12 @@ class Profile extends React.Component {
                 const startingNumbers = parseInt(value, 10);
                 this.setState({ age: isNaN(startingNumbers) ? 0 : startingNumbers })
               }}
-              inputValue={age} />
+              inputValue={age === 0 ? '' : age} />
           </div>
           <div className='mv4'>
             <ButtonGroup
+              selectedButton={favouritedetectiontype}
+              onButtonClick={(buttonId) => this.setState({favouritedetectiontype: buttonId})}
               legend='Choose your favourite detection type'
               buttonsConfiguration={[
                 {
@@ -81,10 +104,19 @@ class Profile extends React.Component {
                 }
               ]} />
           </div>
+          <div className='mv4'>
+              <Rating
+                label='How much do you like the application?'
+                totalStars={5}
+                filledStars={rating}
+                onStarClick={(starPosition) => this.setState({rating: starPosition})} />
+          </div>
         </fieldset>
+        <p className='mb4 mt0' style={{color: 'red', fontWeight: 'bold', display: errorState ? 'block' : 'none'}}>There was an error while updating your profile. Please try againg in a few moments</p>
         <div className='flex justify-around w-100'>
           <button
-            className='shadow-5 b ph3 pv2 button-reset ba b--white purple bg-white grow pointer f5 dib hover-bg-light-purple hover-white outline-0'>
+            className='shadow-5 b ph3 pv2 button-reset ba b--white purple bg-white grow pointer f5 dib hover-bg-light-purple hover-white outline-0'
+            onClick={this.handleSaveProfile}>
             Save
           </button>
           <button 
