@@ -19,7 +19,9 @@ class ImageDetection extends React.Component {
       imageUrl: '',
       selectedModelValue: models[0].value,
       references: [],
-      isSearching: false
+      isSearching: false,
+      errorState: false,
+      errorText: ''
     };
   }
 
@@ -43,30 +45,43 @@ class ImageDetection extends React.Component {
       fetch('http://localhost:3000/imageurl', {
         method: 'post',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
         },
         body: JSON.stringify({
           imageUrl: input,
           detectionType: selectedModelValue
         })
       })
-      .then(response => response.json())
       .then(response => {
-        if (response) {
+        if (response.ok) {
+          return response.json();
+        }
+
+        return Promise.reject(response.status)
+      })
+      .then(data => {
+        if (data) {
           fetch('http://localhost:3000/image', {
             method: 'put',
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
             },
             body: JSON.stringify({ id })
           })
           .then(response => response.json())
           .then(user => setUserLogged(true, user));
         }
-        this.handleImageRecognition(response);
+        this.handleImageRecognition(data);
       })
-      .catch(err => console.log('Error', err)
-      );
+      .catch((err) => {
+        this.setState({
+          isSearching: false,
+          errorState: true,
+          errorText: err === 401 ? 'You are unauthorized to execute this operation. Plase log out and enter again with your credentials' : 'There was an error. Please try again in a moment'
+        }) 
+      });
     });
   }
 
@@ -86,7 +101,7 @@ class ImageDetection extends React.Component {
   }
 
   render() {
-    const { input, imageUrl, references, isSearching } = this.state;
+    const { input, imageUrl, references, isSearching, errorState, errorText } = this.state;
     const selectedModel = this.getSelectedModel();
 
     return (
@@ -103,11 +118,20 @@ class ImageDetection extends React.Component {
                   onFormModelChange={this.onFormModelChange}
                   selectedModel={selectedModel}
                   models={models} />
-                <ImageContainer 
-                  image={imageUrl}
-                  references={references}
-                  selectedModel={selectedModel} 
-                  isSearching={isSearching} />
+                  {
+                    errorState ?
+                    <p style={{
+                      color: 'red',
+                      fontSize: '1.3rem',
+                      fontWeight: 'bold',
+                      backgroundColor: 'rgba(255, 255, 255, .75)'
+                    }}>{errorText}</p> :
+                    <ImageContainer 
+                    image={imageUrl}
+                    references={references}
+                    selectedModel={selectedModel} 
+                    isSearching={isSearching} />
+                  }
               </div>
             );
           }

@@ -4,6 +4,8 @@ import ButtonGroup from '../../../ButtonGroup/ButtonGroup';
 import Input from '../../../Input/Input';
 import Rating from '../../../Rating/Rating';
 
+import { LoggedUserConsumer } from '../../../../contexts/LoggedUserContext';
+
 class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -11,24 +13,12 @@ class Profile extends React.Component {
     this.state = this.getInitialState();
   }
 
-  componentDidMount() {
-    fetch(`http://localhost:3000/profile/${this.props.user.id}`)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw Error();
-        }
-      })
-      .then(profile => this.setState({ ...profile }))
-      .catch(err => this.setState({ ...this.getInitialState() }));
-  }
-
   getInitialState() {
+    const { rating, favouritedetectiontype, age } = this.props.user;
     return {
-      rating: 0,
-      age: 0,
-      favouritedetectiontype: null,
+      rating,
+      age,
+      favouritedetectiontype,
       errorState: false
     };
   }
@@ -38,16 +28,21 @@ class Profile extends React.Component {
     fetch(`http://localhost:3000/profile/${this.props.user.id}`, {
       method: 'post',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`
       },
       body: JSON.stringify(profile)
     })
     .then(response => {
       if (response.ok) {
-        return this.props.handleCloseModal();
+        return response.json();
       } else {
         throw Error();
       }
+    })
+    .then(user => {
+      this.props.setUserLogged(true, user);
+      return this.props.handleCloseModal();
     })
     .catch(err => this.setState({ errorState: true }));
   }
@@ -130,4 +125,8 @@ class Profile extends React.Component {
   }
 };
 
-export default Profile;
+export default React.forwardRef((props, ref) => (
+  <LoggedUserConsumer>
+    {({setUserLogged}) => <Profile {...props} setUserLogged={setUserLogged} /> }
+  </LoggedUserConsumer>
+))
