@@ -28,8 +28,7 @@ class ImageDetection extends React.Component {
 
   onFormInputChange = (event) => {
     this.setState({
-      input: event.target.value,
-      errorState: false
+      input: event.target.value
     })
   }
 
@@ -44,7 +43,8 @@ class ImageDetection extends React.Component {
     this.setState({
       imageUrl: input,
       isSearching: true,
-      lastSearchedModel: selectedModelValue
+      lastSearchedModel: selectedModelValue,
+      errorState: false
     }, () => {
       fetch(`https://ur-smart-brain-api.herokuapp.com/imageurl`, {
         method: 'post',
