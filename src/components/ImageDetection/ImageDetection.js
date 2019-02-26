@@ -123,14 +123,8 @@ class ImageDetection extends React.Component {
                   selectedModel={selectedModel}
                   models={models} />
                   {
-                    errorState ?
-                    <p style={{
-                      color: 'red',
-                      fontSize: '1.3rem',
-                      fontWeight: 'bold',
-                      backgroundColor: 'rgba(255, 255, 255, .75)'
-                    }}>{errorText}</p> :
                     <ImageContainer 
+                      errorState={errorState}
                       image={imageUrl}
                       references={references}
                       selectedModel={selectedModel} 

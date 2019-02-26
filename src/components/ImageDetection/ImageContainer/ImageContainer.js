@@ -56,13 +56,23 @@ class ImageContainer extends React.Component {
   }
 
   render() {
-    const { image, references, selectedModel, isSearching, lastSearchedModel } = this.props;
+    const { image, references, selectedModel, isSearching, lastSearchedModel, errorState } = this.props;
     return (
       <div className={`${container} ${image.trim() === '' ? 'dn' : 'flex'} justify-around center ma`}>
         <div className="relative">
+          {
+            errorState ?
+            <p style={{
+              color: 'red',
+              fontSize: '1.3rem',
+              fontWeight: 'bold',
+              backgroundColor: 'rgba(255, 255, 255, .75)'
+            }}>{errorText}</p> :
+            null
+          }
           <img 
             id='inputimage'
-            style={{display: `${image === '' ? 'none' : 'block'}`}} 
+            style={{display: `${image === '' || errorState ? 'none' : 'block'}`}} 
             src={image}
             alt="Recognize"
             width='100%'
