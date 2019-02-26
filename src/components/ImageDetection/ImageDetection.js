@@ -17,6 +17,7 @@ class ImageDetection extends React.Component {
     this.state = {
       input: '',
       imageUrl: '',
+      lastSearchedModel: '',
       selectedModelValue: models[0].value,
       references: [],
       isSearching: false,
@@ -31,8 +32,7 @@ class ImageDetection extends React.Component {
 
   onFormModelChange = (event) => {
     this.setState({
-      selectedModelValue: event.target.value,
-      references: []
+      selectedModelValue: event.target.value
     });
   }
 
@@ -40,7 +40,8 @@ class ImageDetection extends React.Component {
     const { selectedModelValue, input } = this.state;
     this.setState({
       imageUrl: input,
-      isSearching: true
+      isSearching: true,
+      lastSearchedModel: selectedModelValue
     }, () => {
       fetch(`https://ur-smart-brain-api.herokuapp.com/imageurl`, {
         method: 'post',
@@ -101,7 +102,7 @@ class ImageDetection extends React.Component {
   }
 
   render() {
-    const { input, imageUrl, references, isSearching, errorState, errorText } = this.state;
+    const { input, imageUrl, references, isSearching, errorState, errorText, lastSearchedModel } = this.state;
     const selectedModel = this.getSelectedModel();
 
     return (
@@ -127,10 +128,11 @@ class ImageDetection extends React.Component {
                       backgroundColor: 'rgba(255, 255, 255, .75)'
                     }}>{errorText}</p> :
                     <ImageContainer 
-                    image={imageUrl}
-                    references={references}
-                    selectedModel={selectedModel} 
-                    isSearching={isSearching} />
+                      image={imageUrl}
+                      references={references}
+                      selectedModel={selectedModel} 
+                      isSearching={isSearching}
+                      lastSearchedModel={lastSearchedModel} />
                   }
               </div>
             );

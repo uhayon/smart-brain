@@ -56,7 +56,7 @@ class ImageContainer extends React.Component {
   }
 
   render() {
-    const { image, references, selectedModel, isSearching } = this.props;
+    const { image, references, selectedModel, isSearching, lastSearchedModel } = this.props;
     return (
       <div className={`${container} ${image.trim() === '' ? 'dn' : 'flex'} justify-around center ma`}>
         <div className="relative">
@@ -90,7 +90,8 @@ class ImageContainer extends React.Component {
         <ImageReferences 
           references={references}
           selectedModel={selectedModel}
-          isSearching={isSearching} />
+          isSearching={isSearching}
+          lastSearchedModel={lastSearchedModel} />
       </div>
     );
   }

@@ -23,7 +23,7 @@ const unhighlightBox = key => {
   }
 }
 
-const ImageReferences = ({ isSearching, references, selectedModel: { value: selectedModel } }) => {
+const ImageReferences = ({ isSearching, references, lastSearchedModel, selectedModel: { value: selectedModel } }) => {
   return (
     <div style={{minWidth: '25%'}}>
       <ul className='list pl0'>
@@ -31,7 +31,7 @@ const ImageReferences = ({ isSearching, references, selectedModel: { value: sele
           isSearching ?
           <Spinner /> :
           (
-            references.length === 0 ?
+            lastSearchedModel === selectedModel && references.length === 0 ?
             <p className='pa2 ttc'>There's no elements that match what you are looking for in the provided picture</p> :
             references.map(({ description, key }) =>
               <li 
