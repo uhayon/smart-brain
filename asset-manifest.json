@@ -1,7 +1,7 @@
 {
   "main.css": "/smart-brain/static/css/main.aec355e5.chunk.css",
-  "main.js": "/smart-brain/static/js/main.93a3efca.chunk.js",
-  "main.js.map": "/smart-brain/static/js/main.93a3efca.chunk.js.map",
+  "main.js": "/smart-brain/static/js/main.6ebbda01.chunk.js",
+  "main.js.map": "/smart-brain/static/js/main.6ebbda01.chunk.js.map",
   "runtime~main.js": "/smart-brain/static/js/runtime~main.344cb0f0.js",
   "runtime~main.js.map": "/smart-brain/static/js/runtime~main.344cb0f0.js.map",
   "static/js/2.90c9a830.chunk.js": "/smart-brain/static/js/2.90c9a830.chunk.js",
@@ -17,7 +17,7 @@
   "static/js/6.95f2aa67.chunk.js": "/smart-brain/static/js/6.95f2aa67.chunk.js",
   "static/js/6.95f2aa67.chunk.js.map": "/smart-brain/static/js/6.95f2aa67.chunk.js.map",
   "index.html": "/smart-brain/index.html",
-  "precache-manifest.d0465f11015fe331bc52ab0d3afdae44.js": "/smart-brain/precache-manifest.d0465f11015fe331bc52ab0d3afdae44.js",
+  "precache-manifest.26aaac3e7e4023e53508139635741bd7.js": "/smart-brain/precache-manifest.26aaac3e7e4023e53508139635741bd7.js",
   "service-worker.js": "/smart-brain/service-worker.js",
   "static/css/3.5c9c226f.chunk.css.map": "/smart-brain/static/css/3.5c9c226f.chunk.css.map",
   "static/css/4.82289b6d.chunk.css.map": "/smart-brain/static/css/4.82289b6d.chunk.css.map",
