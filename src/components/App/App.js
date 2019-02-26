@@ -66,7 +66,7 @@ class App extends Component {
           params={particlesOptions} />
         <LoggedUserProvider value={{...this.state, setUserLogged: this.setUserLogged}}>
           <Header />
-          <Router basename={'https://uhayon.github.io'}>
+          <Router basename={'https://uhayon.github.io/smart-brain'}>
             <div className='h-100 overflow-y-auto'>
               <Route 
                 exact path='/home' 
