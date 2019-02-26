@@ -92,7 +92,7 @@ class SignUp extends React.Component {
       return;
     }
 
-    fetch('http://localhost:3000/signup', {
+    fetch(`${process.env.PUBLIC_URL}signup`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
