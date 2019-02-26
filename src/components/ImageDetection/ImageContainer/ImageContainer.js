@@ -98,6 +98,7 @@ class ImageContainer extends React.Component {
           }
         </div>
         <ImageReferences 
+          errorState={errorState}
           references={references}
           selectedModel={selectedModel}
           isSearching={isSearching}

@@ -23,7 +23,7 @@ const unhighlightBox = key => {
   }
 }
 
-const ImageReferences = ({ isSearching, references, lastSearchedModel, selectedModel: { value: selectedModel } }) => {
+const ImageReferences = ({ errorState, isSearching, references, lastSearchedModel, selectedModel: { value: selectedModel } }) => {
   return (
     <div style={{minWidth: '25%'}}>
       <ul className='list pl0'>
@@ -31,7 +31,7 @@ const ImageReferences = ({ isSearching, references, lastSearchedModel, selectedM
           isSearching ?
           <Spinner /> :
           (
-            lastSearchedModel === selectedModel && references.length === 0 ?
+            errorState || (lastSearchedModel === selectedModel && references.length === 0) ?
             <p className='pa2 ttc'>There's no elements that match what you are looking for in the provided picture</p> :
             (
               lastSearchedModel === selectedModel && references.length > 0 ?
