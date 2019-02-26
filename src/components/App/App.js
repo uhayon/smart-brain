@@ -66,7 +66,7 @@ class App extends Component {
           params={particlesOptions} />
         <LoggedUserProvider value={{...this.state, setUserLogged: this.setUserLogged}}>
           <Header />
-          <Router>
+          <Router basename={process.env.PUBLIC_URL}>
             <div className='h-100 overflow-y-auto'>
               <Route 
                 exact path='/home' 
