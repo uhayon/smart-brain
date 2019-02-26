@@ -66,7 +66,7 @@ class App extends Component {
           params={particlesOptions} />
         <LoggedUserProvider value={{...this.state, setUserLogged: this.setUserLogged}}>
           <Header />
-          <Router basename={process.env.PUBLIC_URL}>
+          <Router basename={'https://uhayon.github.io'}>
             <div className='h-100 overflow-y-auto'>
               <Route 
                 exact path='/home' 
