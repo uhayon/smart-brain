@@ -92,7 +92,7 @@ class SignUp extends React.Component {
       return;
     }
 
-    fetch(`${process.env.APIS_URL}signup`, {
+    fetch(`https://ur-smart-brain-api.herokuapp.com/signup`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'

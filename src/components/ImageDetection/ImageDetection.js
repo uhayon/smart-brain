@@ -42,7 +42,7 @@ class ImageDetection extends React.Component {
       imageUrl: input,
       isSearching: true
     }, () => {
-      fetch(`${process.env.APIS_URL}imageurl`, {
+      fetch(`https://ur-smart-brain-api.herokuapp.com/imageurl`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ class ImageDetection extends React.Component {
       })
       .then(data => {
         if (data) {
-          fetch(`${process.env.APIS_URL}image`, {
+          fetch(`https://ur-smart-brain-api.herokuapp.com/image`, {
             method: 'put',
             headers: {
               'Content-Type': 'application/json',
