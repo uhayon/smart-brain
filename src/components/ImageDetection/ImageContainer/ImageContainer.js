@@ -65,8 +65,7 @@ class ImageContainer extends React.Component {
             <p style={{
               color: 'red',
               fontSize: '1.3rem',
-              fontWeight: 'bold',
-              backgroundColor: 'rgba(255, 255, 255, .75)'
+              fontWeight: 'bold'
             }}>{errorText}</p> :
             null
           }
