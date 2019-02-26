@@ -42,7 +42,7 @@ class ImageDetection extends React.Component {
       imageUrl: input,
       isSearching: true
     }, () => {
-      fetch(`${process.env.PUBLIC_URL}imageurl`, {
+      fetch(`${process.env.APIS_URL}imageurl`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ class ImageDetection extends React.Component {
       })
       .then(data => {
         if (data) {
-          fetch(`${process.env.PUBLIC_URL}image`, {
+          fetch(`${process.env.APIS_URL}image`, {
             method: 'put',
             headers: {
               'Content-Type': 'application/json',

@@ -25,7 +25,7 @@ class Profile extends React.Component {
 
   handleSaveProfile = () => {
     const { errorState, ...profile } = this.state
-    fetch(`${process.env.PUBLIC_URL}profile/${this.props.user.id}`, {
+    fetch(`${process.env.APIS_URL}profile/${this.props.user.id}`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',

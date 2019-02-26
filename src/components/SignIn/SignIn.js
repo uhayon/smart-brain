@@ -73,7 +73,7 @@ class SignIn extends React.Component {
 
   loadUser = (userId) => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
-    fetch(`${process.env.PUBLIC_URL}profile/${userId}`, {
+    fetch(`${process.env.APIS_URL}profile/${userId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
@@ -108,7 +108,7 @@ class SignIn extends React.Component {
       return;
     }
 
-    fetch(`${process.env.PUBLIC_URL}signin`, {
+    fetch(`${process.env.APIS_URL}signin`, {
       method: 'post',
       headers: {
         'Content-Type': 'application/json'
@@ -136,7 +136,7 @@ class SignIn extends React.Component {
   componentDidMount() {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
     if (token) {
-      fetch(`${process.env.PUBLIC_URL}signin`, {
+      fetch(`${process.env.APIS_URL}signin`, {
         method: 'post',
         headers: {
           'Content-Type': 'application/json',
