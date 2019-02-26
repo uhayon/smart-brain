@@ -56,7 +56,7 @@ class ImageContainer extends React.Component {
   }
 
   render() {
-    const { image, references, selectedModel, isSearching, lastSearchedModel, errorState } = this.props;
+    const { image, references, selectedModel, isSearching, lastSearchedModel, errorState, errorText } = this.props;
     return (
       <div className={`${container} ${image.trim() === '' ? 'dn' : 'flex'} justify-around center ma`}>
         <div className="relative">

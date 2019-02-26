@@ -125,6 +125,7 @@ class ImageDetection extends React.Component {
                   {
                     <ImageContainer 
                       errorState={errorState}
+                      errorText={errorText}
                       image={imageUrl}
                       references={references}
                       selectedModel={selectedModel} 
