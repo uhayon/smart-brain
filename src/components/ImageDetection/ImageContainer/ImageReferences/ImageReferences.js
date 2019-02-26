@@ -24,7 +24,6 @@ const unhighlightBox = key => {
 }
 
 const ImageReferences = ({ isSearching, references, selectedModel: { value: selectedModel } }) => {
-  console.log(selectedModel)
   return (
     <div style={{minWidth: '25%'}}>
       <ul className='list pl0'>

@@ -35,6 +35,13 @@ class UserMenu extends React.Component {
     this.setState({modalOpen: true });
   }
 
+  handleSignOut = () => {
+    const { setUserLogged } = this.props;
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
+    setUserLogged(false);
+  }
+
   componentDidMount() {
     window.addEventListener('click', this.closeMenu);
   }
@@ -44,7 +51,7 @@ class UserMenu extends React.Component {
   }
 
   render() {
-    const { user, setUserLogged } = this.props;
+    const { user } = this.props;
     const { menuOpen, modalOpen } = this.state;
 
     return (
@@ -60,7 +67,7 @@ class UserMenu extends React.Component {
             <div className={optionsContainer}>
               <UserMenuOption label='View Profile' onOptionClick={this.showProfileModal} />
               <UserMenuOption divider />
-              <UserMenuOption label='Sign Out' onOptionClick={() => setUserLogged(false)} />
+              <UserMenuOption label='Sign Out' onOptionClick={this.handleSignOut} />
             </div>
           </div>
         </div>

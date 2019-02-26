@@ -106,9 +106,12 @@ class SignUp extends React.Component {
       
       throw Error();
     })
-    .then(user => {
-      console.log('lala',user)
-      setUserLogged(true, user)
+    .then(data => {
+      if (data.userId && data.success === 'true') {
+        this.saveAuthTokenInSession(data.token);
+        return this.loadUser(data.userId, setUserLogged);
+      }
+      throw Error();
     })
     .catch(() => {
       this.setState({
@@ -118,6 +121,27 @@ class SignUp extends React.Component {
         }
       })
     });
+  }
+
+  saveAuthTokenInSession = token => {
+    sessionStorage.setItem('token', token);
+  }
+
+  loadUser = (userId, setUserLogged) => {
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    fetch(`https://ur-smart-brain-api.herokuapp.com/profile/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw Error();
+        }
+      })
+      .then(user => setUserLogged(true, user));
   }
 
   render() {
