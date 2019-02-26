@@ -41,7 +41,8 @@ class ImageDetection extends React.Component {
     this.setState({
       imageUrl: input,
       isSearching: true,
-      lastSearchedModel: selectedModelValue
+      lastSearchedModel: selectedModelValue,
+      errorState: false
     }, () => {
       fetch(`https://ur-smart-brain-api.herokuapp.com/imageurl`, {
         method: 'post',
